@@ -36,16 +36,16 @@ export default function App() {
   const consultants = [
     {
       id: 1,
-      name: "Abhijit Tiwari",
-      role: "Political Consultant",
+      name: "Aryan Mehta",
+      role: "Business Consultant",
       price: 499,
       image:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
     },
     {
       id: 2,
-      name: "Kunjan Suleja",
-      role: "Education Expert",
+      name: "Rohit Sharma",
+      role: "Finance Expert",
       price: 699,
       image:
         "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d"
@@ -180,52 +180,43 @@ export default function App() {
         </div>
       )}
 
-    {step === "selfie" && (
-  <div style={box}>
-    <h2 style={title}>Live Selfie Verification</h2>
+      {/* 🔥 SELFIE (FIXED - REAL CAMERA UI) */}
+      {step === "selfie" && (
+        <div style={box}>
+          <h2 style={title}>Live Selfie Verification</h2>
 
-    {/* FILE PICKER (camera + gallery both) */}
-    <input
-      type="file"
-      accept="image/*"
-      capture="user"
-      onChange={(e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+          <label style={cameraBox}>
+            📷 Open Camera & Take Selfie
+            <input
+              type="file"
+              accept="image/*"
+              capture="user"
+              style={{ display: "none" }}
+              onChange={() => setSelfieTaken(true)}
+            />
+          </label>
 
-        // 🔥 NO SIZE RESTRICTION (your request)
-        setSelfieFile(file);
-        setSelfieTaken(true);
-        setMessage("Selfie ready ✅");
-      }}
-      style={{
-        width: "100%",
-        padding: 12,
-        marginTop: 15,
-        background: "#1e1f24",
-        color: "#fff",
-        borderRadius: 10,
-        border: "1px solid #444"
-      }}
-    />
+          {selfieTaken && (
+            <button style={btn} onClick={confirmSelfie}>
+              Confirm Selfie
+            </button>
+          )}
+        </div>
+      )}
 
-    {/* CONFIRM BUTTON ONLY AFTER FILE */}
-    {selfieTaken && selfieFile && (
-      <button
-        style={btn}
-        onClick={() => {
-          try {
-            confirmSelfie();
-          } catch (err) {
-            setMessage("Error, try again");
-          }
-        }}
-      >
-        Confirm Selfie
-      </button>
-    )}
-  </div>
-)}
+      {/* PAYMENT */}
+      {step === "payment" && (
+        <div style={box}>
+          <h2 style={title}>Payment</h2>
+
+          <button style={btn}>GPay</button>
+          <button style={btn}>PhonePe</button>
+
+          <button style={payBtn} onClick={makePayment}>
+            Pay Now
+          </button>
+        </div>
+      )}
 
       {/* SUCCESS */}
       {step === "success" && (
