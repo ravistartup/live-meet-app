@@ -180,41 +180,45 @@ export default function App() {
         </div>
       )}
 
-     {/* 🔥 SELFIE FIXED */}
-{step === "selfie" && (
+    {step === "selfie" && (
   <div style={box}>
     <h2 style={title}>Live Selfie Verification</h2>
 
-    <label style={cameraBox}>
-      📷 Open Camera & Take Selfie
-      <input
-        type="file"
-        accept="image/*"
-        capture="user"
-        style={{ display: "none" }}
-        onChange={(e) => {
-          const file = e.target.files?.[0];
+    {/* FILE PICKER (camera + gallery both) */}
+    <input
+      type="file"
+      accept="image/*"
+      capture="user"
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
 
-          if (!file) return;
+        // 🔥 NO SIZE RESTRICTION (your request)
+        setSelfieFile(file);
+        setSelfieTaken(true);
+        setMessage("Selfie ready ✅");
+      }}
+      style={{
+        width: "100%",
+        padding: 12,
+        marginTop: 15,
+        background: "#1e1f24",
+        color: "#fff",
+        borderRadius: 10,
+        border: "1px solid #444"
+      }}
+    />
 
-          if (file.size > 5 * 1024 * 1024) {
-            setMessage("Image too large, use smaller photo");
-            setSelfieTaken(false);
-            return;
-          }
-
-          setSelfieTaken(true);
-          setMessage("Selfie captured ✅");
-        }}
-      />
-    </label>
-
-    {/* ✅ अब button सिर्फ तभी दिखेगा जब file मिले */}
-    {selfieTaken === true && (
+    {/* CONFIRM BUTTON ONLY AFTER FILE */}
+    {selfieTaken && selfieFile && (
       <button
         style={btn}
         onClick={() => {
-          confirmSelfie();
+          try {
+            confirmSelfie();
+          } catch (err) {
+            setMessage("Error, try again");
+          }
         }}
       >
         Confirm Selfie
@@ -222,20 +226,6 @@ export default function App() {
     )}
   </div>
 )}
-
-      {/* PAYMENT */}
-      {step === "payment" && (
-        <div style={box}>
-          <h2 style={title}>Payment</h2>
-
-          <button style={btn}>GPay</button>
-          <button style={btn}>PhonePe</button>
-
-          <button style={payBtn} onClick={makePayment}>
-            Pay Now
-          </button>
-        </div>
-      )}
 
       {/* SUCCESS */}
       {step === "success" && (
