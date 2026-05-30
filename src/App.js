@@ -39,22 +39,25 @@ export default function App() {
       name: "Abhijit Tiwari",
       role: "Political Consultant",
       price: 499,
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+      image:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
     },
     {
       id: 2,
       name: "Kunjan Suleja",
       role: "Education Expert",
       price: 699,
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
+      image:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d"
     },
     {
       id: 3,
       name: "Neha Kapoor",
       role: "Career Coach",
       price: 599,
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-    },
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+    }
   ];
 
   const sendOTP = () => {
@@ -98,16 +101,13 @@ export default function App() {
 
   return (
     <div style={appBg}>
+
       {/* NAV */}
       <div style={topNav}>
-        <button style={homeBtn} onClick={goHome}>
-          Home
-        </button>
+        <button style={homeBtn} onClick={goHome}>Home</button>
 
         {!["home", "call", "end"].includes(step) && (
-          <button style={backBtn} onClick={goBack}>
-            Back
-          </button>
+          <button style={backBtn} onClick={goBack}>Back</button>
         )}
       </div>
 
@@ -180,29 +180,48 @@ export default function App() {
         </div>
       )}
 
-      {/* 🔥 SELFIE (FIXED - REAL CAMERA UI) */}
-      {step === "selfie" && (
-        <div style={box}>
-          <h2 style={title}>Live Selfie Verification</h2>
+     {/* 🔥 SELFIE FIXED */}
+{step === "selfie" && (
+  <div style={box}>
+    <h2 style={title}>Live Selfie Verification</h2>
 
-          <label style={cameraBox}>
-            📷 Open Camera & Take Selfie
-            <input
-              type="file"
-              accept="image/*"
-              capture="user"
-              style={{ display: "none" }}
-              onChange={() => setSelfieTaken(true)}
-            />
-          </label>
+    <label style={cameraBox}>
+      📷 Open Camera & Take Selfie
+      <input
+        type="file"
+        accept="image/*"
+        capture="user"
+        style={{ display: "none" }}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
 
-          {selfieTaken && (
-            <button style={btn} onClick={confirmSelfie}>
-              Confirm Selfie
-            </button>
-          )}
-        </div>
-      )}
+          if (!file) return;
+
+          if (file.size > 5 * 1024 * 1024) {
+            setMessage("Image too large, use smaller photo");
+            setSelfieTaken(false);
+            return;
+          }
+
+          setSelfieTaken(true);
+          setMessage("Selfie captured ✅");
+        }}
+      />
+    </label>
+
+    {/* ✅ अब button सिर्फ तभी दिखेगा जब file मिले */}
+    {selfieTaken === true && (
+      <button
+        style={btn}
+        onClick={() => {
+          confirmSelfie();
+        }}
+      >
+        Confirm Selfie
+      </button>
+    )}
+  </div>
+)}
 
       {/* PAYMENT */}
       {step === "payment" && (
@@ -235,7 +254,8 @@ export default function App() {
           <h2 style={title}>Call Running</h2>
 
           <h1 style={timer}>
-            {Math.floor(callTime / 60)}:{String(callTime % 60).padStart(2, "0")}
+            {Math.floor(callTime / 60)}:
+            {String(callTime % 60).padStart(2, "0")}
           </h1>
         </div>
       )}
@@ -246,6 +266,7 @@ export default function App() {
           <h2 style={title}>Call Ended</h2>
         </div>
       )}
+
     </div>
   );
 }
@@ -256,7 +277,7 @@ const appBg = {
   minHeight: "100vh",
   background: "#1e1f24",
   color: "#e6e6e6",
-  fontFamily: "sans-serif",
+  fontFamily: "sans-serif"
 };
 
 const topNav = {
@@ -264,7 +285,7 @@ const topNav = {
   top: 10,
   left: 10,
   display: "flex",
-  gap: 10,
+  gap: 10
 };
 
 const homeBtn = {
@@ -272,7 +293,7 @@ const homeBtn = {
   background: "#2f3138",
   color: "#fff",
   border: "1px solid #444",
-  borderRadius: 8,
+  borderRadius: 8
 };
 
 const backBtn = {
@@ -280,7 +301,7 @@ const backBtn = {
   background: "#2a2c33",
   color: "#fff",
   border: "1px solid #444",
-  borderRadius: 8,
+  borderRadius: 8
 };
 
 const grid = {
@@ -288,7 +309,7 @@ const grid = {
   gap: 20,
   flexWrap: "wrap",
   justifyContent: "center",
-  paddingTop: 90,
+  paddingTop: 90
 };
 
 const card = {
@@ -297,7 +318,7 @@ const card = {
   width: 220,
   borderRadius: 14,
   textAlign: "center",
-  border: "1px solid #3a3d46",
+  border: "1px solid #3a3d46"
 };
 
 const img = { width: 110, height: 130, borderRadius: 10 };
@@ -309,7 +330,7 @@ const box = {
   background: "#2a2c33",
   borderRadius: 14,
   border: "1px solid #3a3d46",
-  textAlign: "center",
+  textAlign: "center"
 };
 
 const input = {
@@ -319,7 +340,7 @@ const input = {
   borderRadius: 10,
   border: "1px solid #444",
   background: "#1e1f24",
-  color: "#fff",
+  color: "#fff"
 };
 
 const btn = {
@@ -329,7 +350,7 @@ const btn = {
   background: "#4caf50",
   border: "none",
   borderRadius: 10,
-  color: "#fff",
+  color: "#fff"
 };
 
 const otpBtn = {
@@ -338,7 +359,7 @@ const otpBtn = {
   background: "#ff9800",
   border: "none",
   borderRadius: 8,
-  color: "#000",
+  color: "#000"
 };
 
 const payBtn = {
@@ -348,7 +369,7 @@ const payBtn = {
   background: "#2196f3",
   border: "none",
   borderRadius: 10,
-  color: "#fff",
+  color: "#fff"
 };
 
 const cameraBox = {
@@ -359,7 +380,7 @@ const cameraBox = {
   border: "2px dashed #4caf50",
   borderRadius: 12,
   cursor: "pointer",
-  color: "#fff",
+  color: "#fff"
 };
 
 const title = { color: "#f1f1f1" };
@@ -375,5 +396,5 @@ const toast = {
   background: "#4caf50",
   padding: 10,
   borderRadius: 8,
-  color: "#fff",
+  color: "#fff"
 };
